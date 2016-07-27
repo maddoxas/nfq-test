@@ -1,0 +1,34 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+<a href="{{ path('group_create') }}" type="button" class="btn btn-primary">Create group</a>
+<a href="{{ path('users') }}" type="button" class="btn btn-primary">Back to users</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Assigned Users</td>
+        <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for group in groups %}
+            <tr>
+                <td>{{ group.getId() }}
+                <td>{{ group.getName() }}
+                <td>{{ group.getUserCount() }}
+                <td>
+                    <a href="{{ path('group_users', {id: group.getId()}) }}" class="btn btn-success">Add Users</a>
+                    {% if not group.hasUsers() %}
+                       <a href="{{ path('group_delete', {id: group.getId()}) }}" class="btn btn-danger">Delete group</a>
+                    {% endif %}
+                 </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+<a href="{{ path('user_create') }}" type="button" class="btn btn-primary">Create user</a>
+<a href="{{ path('group_create') }}" type="button" class="btn btn-primary">Create group</a>
+<a href="{{ path('groups') }}" type="button" class="btn btn-primary">Back to groups</a>
+
+{% if group.getUsers() is not empty %}
+    <h1>Already assigned group users:</h1>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Username</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in group.getUsers() %}
+                <tr>
+                    <td>{{ user.getId() }}
+                    <td>{{ user.getName() }}
+                    <td>
+                       <a href="{{ path('remove_group_user', {'userId': user.getId(), 'groupId': group.getId()}) }}" class="btn btn-danger">Remove from group</a>
+                     </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+<h1>Unassigned users:</h1>
+{% if unassigned_users is not empty %}
+	<table class="table table-hover">
+        <thead>
+            <tr>
+        	    <td>ID</td>
+        	    <td>Username</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in unassigned_users %}
+                <tr>
+                    <td>{{ user.getId() }}
+                    <td>{{ user.getName() }}
+                    <td>
+                       <a href="{{ path('add_group_user', {'userId': user.getId(), 'groupId': group.getId()}) }}" class="btn btn-success">Add To Group</a>
+                     </td>
+			    </tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+    <span>There are no unassigned users to add.</span>
+{% endif %}
+
+{% endblock %}
